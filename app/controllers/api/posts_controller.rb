@@ -1,6 +1,6 @@
 class Api::PostsController < ApplicationController
   def index
-    @posts = Post.all
+    @posts = Post.includes(:tags).all
 
     render json: serialize_posts(@posts)
   end
