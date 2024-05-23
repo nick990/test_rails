@@ -7,7 +7,7 @@ class Api::PostsController < ApplicationController
 
   def search
     term = params[:term]
-    @posts = Post.includes(:tags).where('title LIKE ?', "%#{term}%")
+    @posts = Post.joins(:tags).where('title LIKE ? OR tags.name = ?', "%#{term}%", term).distinct
     render json: serialize_posts(@posts)
   end
 
