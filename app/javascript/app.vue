@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    Type to search
+    <input type="text" v-model="searchTerm" @input="search">
     <post v-for="post in posts" :key="post.id" :post="post"></post>
   </div>
 </template>
@@ -22,6 +24,16 @@ export default {
     .then(data => {
       this.posts = data;
     })
+  },
+
+  methods: {
+    search(){
+      fetch(`/api/posts/search?term=${this.searchTerm}`)
+      .then(response => response.json())
+      .then(data => {
+        this.posts = data;
+      })
+    }
   }
 }
 </script>
