@@ -5,6 +5,12 @@ class Api::PostsController < ApplicationController
     render json: serialize_posts(@posts)
   end
 
+  def search
+    term = params[:term]
+    @posts = Post.includes(:tags).where('title LIKE ?', "%#{term}%")
+    render json: serialize_posts(@posts)
+  end
+
   def serialize_posts(posts)
     @posts.map do |post|
       {
